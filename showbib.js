@@ -53,7 +53,10 @@ function formatEntry(entry)
 		else if ("number" in entry)
 			detailsDiv.append(entry.number + ":");
 		
-		detailsDiv.append(e(entry.pages) + ", " + e(entry.year) + ". ");
+		if ("pages" in entry)
+			detailsDiv.append(e(entry.pages) + ", ")
+		
+		detailsDiv.append(e(entry.year) + ". ");
 		break;
 	
 	case "inproceedings":
@@ -89,6 +92,12 @@ function formatEntry(entry)
 		detailsDiv.append('<span class="error">' + entry.bibtexType + '</span>');
 		break;
 	}
+	
+	if ("notes" in entry)
+	{
+	    var notesDiv = $("<div>").addClass("notes").append(e(entry.notes) + ".");
+	    result.append(notesDiv);
+    }
 	
 	var linksList = $("<ul>").addClass("links");
 	result.append(linksList);

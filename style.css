@@ -114,6 +114,11 @@ span.howpublished {
 	font-style: italic;
 }
 
+div.notes {
+    font-style: italic;
+    font-weight: bold;
+}
+
 ul.links {
 	padding-left: 0px;
 	margin: 1ex;
