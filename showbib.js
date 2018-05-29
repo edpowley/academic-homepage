@@ -30,10 +30,10 @@ function formatEntry(entry)
 	}
 	authorDiv.append(". ");
 	
-	var icon = $("<img>").addClass("icon")
-		.attr("src", entry.bibtexType + ".png")
-		.attr("alt", entry.bibtexType)
-		.attr("title", entry.bibtexType);
+	var icon = $("<img>").addClass("iconfloat")
+		.attr("src", "category_icons/" + entry.category + ".png")
+		.attr("alt", entry.category)
+		.attr("title", entry.category);
 	result.append(icon);
 	
 	var titleDiv = $("<div>").addClass("title").append(entry.title + ". ");
@@ -174,6 +174,31 @@ function filterByAuthor(author)
 	);
 }
 
+function filterByCategory(category)
+{
+	clearFilter();
+	
+	$("#bib li").each(function()
+	{
+		var $this = $(this);
+		var entry = $this.data("entry");
+		if (entry)
+		{
+			if (entry.category != category)
+			{
+				$this.hide();
+			}
+		}
+	});
+	
+	$("ul#toplinks").append(
+		$("<li>").addClass("clearfilter").append(
+			$("<a>").click(clearFilter)
+				.append("Showing papers on " + category.replace("_", " ") + " (click to show all)")
+		)
+	);
+}
+
 function sortByAuthor()
 {
 	$("#bib").sortChildren(
@@ -210,6 +235,8 @@ function showBib(filter)
 		{
 			bibEntries = parseBib(data);
 			
+			allCategories = new Set();
+			
 			var refCount = 0;
 			//var bibtexSrc = "";
 			for (var i=0; i<bibEntries.length; i++)
@@ -221,8 +248,27 @@ function showBib(filter)
 					$("#bib").append(entryElement);
 					//bibtexSrc += bibEntries[i].bibtex + "\n";
 					refCount++;
+					
+					allCategories.add(bibEntries[i].category);
 				}
 			}
+			
+			allCategories.forEach(function(category)
+			{
+			    $("ul#toplinks").append(
+                    $("<li>").append(
+                        $("<a>").click(function() { filterByCategory(category) })
+                            .append(
+                                $("<img>").addClass("icon")
+                                    .attr("src", "category_icons/" + category + ".png")
+                                    .attr("alt", category)
+                                    .attr("title", category)
+                            )
+                            .append(category.replace("_", " ")
+                        )
+                    )
+                );
+			});
 			
 			$("div.loading").remove();
 			

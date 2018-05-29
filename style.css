@@ -72,6 +72,10 @@ ol > li:before {
 }
 
 img.icon {
+	height: 2em;
+}
+
+img.iconfloat {
 	float: left;
 	padding-top: 0.5em;
 	height: 2em;
@@ -151,4 +155,8 @@ pre.bibtex {
 	background: red;
 	color: white;
 	font-weight: bold;
+}
+
+div.credits {
+    font-size: 7pt;
 }
